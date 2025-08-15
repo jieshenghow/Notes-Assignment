@@ -1,97 +1,273 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Merquri Assignment - Note Taking App
 
-# Getting Started
+A beautiful React Native note-taking application built with TypeScript, featuring categorized notes, gradient UI design, and local storage persistence.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## 📱 Features
 
-## Step 1: Start Metro
+- **Note Management**: Create, edit, and delete notes with ease
+- **Category Organization**: Organize notes into "Work and Study", "Life", and "Health and Well-being" categories
+- **Character Limit**: 200 character limit with real-time character counter
+- **Local Storage**: Persistent storage using AsyncStorage
+- **Beautiful UI**: Gradient backgrounds, custom icons, and glassmorphism effects
+- **Navigation**: Bottom tab navigation with stack navigation for settings
+- **Settings Screen**: Manage app settings and bulk delete notes
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 🚀 Quick Start
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+### Prerequisites
 
-```sh
-# Using npm
-npm start
+Before you begin, ensure you have the following installed:
 
-# OR using Yarn
-yarn start
+- **Node.js**: Version 18 or higher
+- **npm**: Version 9 or higher (comes with Node.js)
+- **React Native CLI**: Version 19.0.0
+- **Xcode**: Latest version (for iOS development on macOS)
+- **Android Studio**: Latest version (for Android development)
+- **CocoaPods**: For iOS dependencies (macOS only)
+
+### Environment Setup
+
+1. **Install Node.js and npm**
+   ```bash
+   # Check your current versions
+   node --version  # Should be >=18
+   npm --version   # Should be >=9
+   ```
+
+2. **Install React Native CLI**
+   ```bash
+   npm install -g @react-native-community/cli
+   ```
+
+3. **For iOS Development (macOS only)**
+   ```bash
+   # Install CocoaPods
+   sudo gem install cocoapods
+   
+   # Install Ruby bundler
+   gem install bundler
+   ```
+
+4. **For Android Development**
+   - Install Android Studio
+   - Set up Android SDK (API Level 33+)
+   - Configure ANDROID_HOME environment variable
+
+## 📦 Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd MerquriAssignment
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **iOS Setup (macOS only)**
+   ```bash
+   # Install Ruby gems
+   bundle install
+   
+   # Install iOS dependencies
+   cd ios && bundle exec pod install && cd ..
+   ```
+
+4. **Start Metro Server**
+   ```bash
+   npm start
+   ```
+
+5. **Run the application**
+   
+   **For iOS:**
+   ```bash
+   npm run ios
+   ```
+   
+   **For Android:**
+   ```bash
+   npm run android
+   ```
+
+## 🛠 Development Environment
+
+### My Local Environment
+
+- **OS**: macOS Darwin 24.6.0
+- **Node.js**: v23.2.0
+- **npm**: 11.4.1
+- **React Native CLI**: 19.0.0
+- **Xcode**: Latest version
+- **iOS Simulator**: iPhone 16
+
+### Key Dependencies
+
+| Package | Version | Purpose |
+|---------|---------|---------|
+| React Native | 0.80.0 | Core framework |
+| TypeScript | 5.0.4 | Type safety |
+| React Navigation | ^7.1.17 | Navigation system |
+| Zustand | ^5.0.7 | State management |
+| AsyncStorage | ^2.2.0 | Local data persistence |
+| Linear Gradient | ^2.8.3 | Gradient backgrounds |
+| FontAwesome | ^6.7.2 | Icons |
+| React Native SVG | ^15.12.1 | SVG support |
+
+## 📁 Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── common/         # Common components
+│   │   ├── AddNoteModal.tsx
+│   │   ├── NoteItem.tsx
+│   │   ├── GradientButton.tsx
+│   │   └── ...
+│   └── index.ts
+├── navigation/         # Navigation configuration
+│   ├── RootNavigator.tsx
+│   ├── TabNavigator.tsx
+│   └── types.ts
+├── screens/           # Screen components
+│   └── home/
+│       ├── HomeScreen.tsx
+│       ├── SettingScreen.tsx
+│       └── ...
+├── store/             # State management
+│   ├── noteStore.ts
+│   └── index.ts
+├── assets/            # Static assets
+│   ├── icons/
+│   └── images/
+├── types/             # TypeScript type definitions
+└── utils/             # Utility functions
 ```
 
-## Step 2: Build and run your app
+## 🎨 App Features Overview
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+### Home Screen
+- Displays notes categorized by type
+- Shows latest 3 notes per category
+- Tap notes to edit them
+- Settings button in header
 
-### Android
+### Add/Edit Note Modal
+- Create new notes or edit existing ones
+- Category selection with visual indicators
+- 200 character limit with real-time counter
+- Form validation
 
-```sh
-# Using npm
-npm run android
+### Settings Screen
+- Navigation menu items (Customer Support, User Agreement, etc.)
+- Delete all notes functionality with confirmation
+- Sticky bottom delete button
 
-# OR using Yarn
-yarn android
-```
+### Summary Screen
+- Shows note count per category
+- Tap "Detail" to view all notes in that category
 
-### iOS
+## 🔧 Available Scripts
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+| Command | Description |
+|---------|-------------|
+| `npm start` | Start Metro bundler |
+| `npm run ios` | Run on iOS simulator |
+| `npm run android` | Run on Android emulator |
+| `npm run lint` | Run ESLint |
+| `npm test` | Run Jest tests |
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+## 🐛 Troubleshooting
 
-```sh
-bundle install
-```
+### Common Issues
 
-Then, and every time you update your native dependencies, run:
+1. **Metro server port conflict**
+   ```bash
+   # Kill processes on port 8081
+   lsof -ti:8081 | xargs kill -9
+   ```
 
-```sh
-bundle exec pod install
-```
+2. **iOS build issues**
+   ```bash
+   # Clean and reinstall pods
+   cd ios
+   rm -rf Pods Podfile.lock
+   bundle exec pod install
+   cd ..
+   ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+3. **Android build issues**
+   ```bash
+   # Clean gradle
+   cd android
+   ./gradlew clean
+   cd ..
+   ```
 
-```sh
-# Using npm
-npm run ios
+4. **Cache issues**
+   ```bash
+   # Reset Metro cache
+   npx react-native start --reset-cache
+   ```
 
-# OR using Yarn
-yarn ios
-```
+### Performance Tips
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+- **Screen transitions**: Optimized with React.memo and useMemo
+- **List rendering**: Efficient note filtering and sorting
+- **Memory usage**: Proper component cleanup and state management
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+## 📝 Notes
 
-## Step 3: Modify your app
+- **Character Limit**: Notes are limited to 200 characters
+- **Storage**: All data is stored locally using AsyncStorage
+- **Categories**: Three predefined categories (not user-customizable)
+- **Platform**: Tested on iOS, Android support included
 
-Now that you have successfully run the app, let's make changes!
+## 🔗 Resources
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+- [React Native Documentation](https://reactnative.dev/docs/getting-started)
+- [React Navigation](https://reactnavigation.org/)
+- [Zustand State Management](https://github.com/pmndrs/zustand)
+- [AsyncStorage](https://react-native-async-storage.github.io/async-storage/)
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+## 📱 Screenshots
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+<div align="center">
 
-## Congratulations! :tada:
+### Home Screen
+<img src="src/assets/screenshots/Screenshot 2025-08-16 at 06.15.19.png" width="300" alt="Home Screen">
 
-You've successfully run and modified your React Native App. :partying_face:
+*The main home screen showing categorized notes with latest 3 notes per category*
 
-### Now what?
+### Add/Edit Note Modal
+<img src="src/assets/screenshots/Screenshot 2025-08-16 at 06.15.22.png" width="300" alt="Add Note Modal">
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+*Add note modal with category selection and 200-character counter*
 
-# Troubleshooting
+### Summary Screen
+<img src="src/assets/screenshots/Screenshot 2025-08-16 at 06.15.27.png" width="300" alt="Summary Screen">
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+*Summary screen showing note counts per category with robot mascot*
 
-# Learn More
+### Settings Screen
+<img src="src/assets/screenshots/Screenshot 2025-08-16 at 06.15.44.png" width="300" alt="Settings Screen">
 
-To learn more about React Native, take a look at the following resources:
+*Settings screen with navigation menu and sticky delete button*
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+</div>
+
+### 🎨 Design Features
+
+The app features a beautiful gradient design with:
+- **Purple gradient theme** with glassmorphism effects
+- **Custom tab bar** with smooth animations
+- **Consistent header styling** across all screens
+- **Professional category selection** with color-coded indicators
+- **Real-time character counting** with visual feedback
+- **Sticky delete button** with proper safe area handling
+
+---
+
+**Built with ❤️ using React Native and TypeScript**
