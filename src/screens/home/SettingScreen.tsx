@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Alert, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import NavigationButton from '@/components/common/NavigationButton';
 import GradientButton from '@/components/common/GradientButton';
+import CustomAlert from '@/components/common/CustomAlert';
 import { useNoteStore } from '@/store';
 import {
   faFileContract,
@@ -21,6 +22,7 @@ interface SettingItem {
 const SettingScreen: React.FC = () => {
   const clearAllNotes = useNoteStore(state => state.clearAllNotes);
   const insets = useSafeAreaInsets();
+  const [showCustomAlert, setShowCustomAlert] = useState(false);
 
   const handleDeleteAllNotes = () => {
     Alert.alert(
@@ -36,7 +38,7 @@ const SettingScreen: React.FC = () => {
           style: 'destructive',
           onPress: () => {
             clearAllNotes();
-            Alert.alert('Success', 'All notes have been deleted.');
+            setShowCustomAlert(true);
           },
         },
       ],
@@ -107,6 +109,12 @@ const SettingScreen: React.FC = () => {
           colors={['#F94695', '#F13A76']}
         />
       </View>
+
+      <CustomAlert
+        visible={showCustomAlert}
+        message="All notes have been cleared"
+        onClose={() => setShowCustomAlert(false)}
+      />
     </View>
   );
 };

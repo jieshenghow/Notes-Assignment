@@ -14,7 +14,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import GradientIcon from './GradientIcon';
 import { CategoryType, useNoteStore, Note } from '@/store';
-import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 interface AddNoteModalProps {
   visible: boolean;
@@ -29,6 +29,7 @@ const AddNoteModal: React.FC<AddNoteModalProps> = ({ visible, onClose, editingNo
 
   const addNote = useNoteStore(state => state.addNote);
   const updateNote = useNoteStore(state => state.updateNote);
+  const deleteNote = useNoteStore(state => state.deleteNote);
 
   // Initialize form with editing note data
   React.useEffect(() => {
@@ -82,6 +83,30 @@ const AddNoteModal: React.FC<AddNoteModalProps> = ({ visible, onClose, editingNo
     onClose();
   };
 
+  const handleDelete = () => {
+    if (!editingNote) return;
+    
+    Alert.alert(
+      'Delete Note',
+      'Are you sure you want to delete this note? This action cannot be undone.',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            await deleteNote(editingNote.id);
+            setContent('');
+            onClose();
+          },
+        },
+      ]
+    );
+  };
+
   return (
     <Modal
       visible={visible}
@@ -120,7 +145,10 @@ const AddNoteModal: React.FC<AddNoteModalProps> = ({ visible, onClose, editingNo
 
           <ScrollView
             style={styles.scrollView}
-            contentContainerStyle={styles.contentContainer}
+            contentContainerStyle={[
+              styles.contentContainer,
+              editingNote && styles.contentContainerWithDelete
+            ]}
             showsVerticalScrollIndicator={false}
           >
 
@@ -185,6 +213,20 @@ const AddNoteModal: React.FC<AddNoteModalProps> = ({ visible, onClose, editingNo
             </View>
 
           </ScrollView>
+          
+          {/* Delete Button - Only show when editing */}
+          {editingNote && (
+            <View style={styles.deleteButtonContainer}>
+              <TouchableOpacity onPress={handleDelete} style={styles.deleteButton}>
+                <GradientIcon
+                  icon={faTrash}
+                  size={18}
+                  colors={['#FFFFFF', '#FFFFFF']}
+                />
+                <Text style={styles.deleteButtonText}>Delete Note</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </KeyboardAvoidingView>
       </LinearGradient>
     </Modal>
@@ -229,6 +271,9 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: 24,
     paddingBottom: 40,
+  },
+  contentContainerWithDelete: {
+    paddingBottom: 120,
   },
   inputSection: {
     marginBottom: 24,
@@ -341,6 +386,31 @@ const styles = StyleSheet.create({
   saveButtonText: {
     fontSize: 18,
     fontWeight: '700',
+  },
+  deleteButtonContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    paddingBottom: 34,
+  },
+  deleteButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FF4444',
+    borderRadius: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    gap: 8,
+  },
+  deleteButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 
