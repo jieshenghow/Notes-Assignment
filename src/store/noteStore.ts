@@ -14,7 +14,10 @@ export interface Note {
 interface NoteStore {
   notes: Note[];
   addNote: (note: Omit<Note, 'id' | 'createdAt' | 'updatedAt'>) => void;
-  updateNote: (id: string, updates: Partial<Omit<Note, 'id' | 'createdAt'>>) => void;
+  updateNote: (
+    id: string,
+    updates: Partial<Omit<Note, 'id' | 'createdAt'>>,
+  ) => void;
   deleteNote: (id: string) => void;
   clearAllNotes: () => void;
   getNotesByCategory: (category: CategoryType) => Note[];
@@ -27,7 +30,7 @@ const STORAGE_KEY = 'notes_storage';
 export const useNoteStore = create<NoteStore>((set, get) => ({
   notes: [],
 
-  addNote: async (noteData) => {
+  addNote: async noteData => {
     const newNote: Note = {
       ...noteData,
       id: Date.now().toString(),
@@ -36,7 +39,7 @@ export const useNoteStore = create<NoteStore>((set, get) => ({
     };
     const updatedNotes = [...get().notes, newNote];
     set({ notes: updatedNotes });
-    
+
     try {
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedNotes));
     } catch (error) {
@@ -45,13 +48,11 @@ export const useNoteStore = create<NoteStore>((set, get) => ({
   },
 
   updateNote: async (id, updates) => {
-    const updatedNotes = get().notes.map((note) =>
-      note.id === id
-        ? { ...note, ...updates, updatedAt: new Date() }
-        : note
+    const updatedNotes = get().notes.map(note =>
+      note.id === id ? { ...note, ...updates, updatedAt: new Date() } : note,
     );
     set({ notes: updatedNotes });
-    
+
     try {
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedNotes));
     } catch (error) {
@@ -59,10 +60,10 @@ export const useNoteStore = create<NoteStore>((set, get) => ({
     }
   },
 
-  deleteNote: async (id) => {
-    const updatedNotes = get().notes.filter((note) => note.id !== id);
+  deleteNote: async id => {
+    const updatedNotes = get().notes.filter(note => note.id !== id);
     set({ notes: updatedNotes });
-    
+
     try {
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedNotes));
     } catch (error) {
@@ -72,7 +73,7 @@ export const useNoteStore = create<NoteStore>((set, get) => ({
 
   clearAllNotes: async () => {
     set({ notes: [] });
-    
+
     try {
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify([]));
     } catch (error) {
@@ -96,8 +97,8 @@ export const useNoteStore = create<NoteStore>((set, get) => ({
     }
   },
 
-  getNotesByCategory: (category) => {
-    return get().notes.filter((note) => note.category === category);
+  getNotesByCategory: category => {
+    return get().notes.filter(note => note.category === category);
   },
 
   getAllNotes: () => {

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Alert, ScrollView, StyleSheet, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '@/navigation/types';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import NavigationButton from '@/components/common/NavigationButton';
 import GradientButton from '@/components/common/GradientButton';
@@ -10,8 +13,11 @@ import {
   faHeadset,
   faInfoCircle,
   faShieldAlt,
+  faSignInAlt,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 interface SettingItem {
   title: string;
@@ -23,6 +29,7 @@ const SettingScreen: React.FC = () => {
   const clearAllNotes = useNoteStore(state => state.clearAllNotes);
   const insets = useSafeAreaInsets();
   const [showCustomAlert, setShowCustomAlert] = useState(false);
+  const navigation = useNavigation<NavigationProp>();
 
   const handleDeleteAllNotes = () => {
     Alert.alert(
@@ -46,6 +53,13 @@ const SettingScreen: React.FC = () => {
   };
 
   const settingItems: SettingItem[] = [
+    {
+      title: 'Login',
+      icon: faSignInAlt,
+      onPress: () => {
+        navigation.navigate('Login');
+      },
+    },
     {
       title: 'Online Customer',
       icon: faHeadset,

@@ -12,6 +12,7 @@ export type RootStackParamList = {
   TabNavigator: undefined;
   Settings: undefined;
   CategoryDetail: { category: CategoryType; categoryTitle: string };
+  Login: undefined;
 };
 
 export type TabScreenProps<Screen extends keyof TabParamList> =

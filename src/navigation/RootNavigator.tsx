@@ -4,6 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import TabNavigator from './TabNavigator';
 import SettingScreen from '../screens/home/SettingScreen';
 import CategoryDetailScreen from '../screens/home/CategoryDetailScreen';
+import LoginScreen from '../screens/home/LoginScreen';
 import AddNoteModal from '../components/common/AddNoteModal';
 import type { RootStackParamList } from './types';
 import { StyleSheet } from 'react-native';
@@ -74,6 +75,19 @@ const RootNavigator: React.FC = () => {
         >
           {({ route }) => <CategoryDetailScreen route={route} onEditNote={handleEditNote} />}
         </Stack.Screen>
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{
+            headerShown: true,
+            title: 'Login',
+            headerTitleAlign: 'left',
+            headerStyle: styles.headerStyle,
+            headerTintColor: '#FFFFFF',
+            headerTitleStyle: styles.headerTitleStyle,
+            headerBackground: SettingsHeaderBackground,
+          }}
+        />
       </Stack.Navigator>
 
       <AddNoteModal
